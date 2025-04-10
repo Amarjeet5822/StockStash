@@ -1,9 +1,10 @@
 const express = require("express");
+const { SignupMiddleware, LoginMiddleware } = require("../middlewares/authMiddleware");
+const { Login, Signup } = require("../controllers/authController");
 
-const router = express.Router();
+const authRoute = express.Router();
+// http://localhost:8080/api/auth/signup or login
+authRoute.post("/signup", SignupMiddleware , Signup);
+authRoute.post("/login", LoginMiddleware , Login);
 
-router.post("/signup", SignupMiddleware , Signup);
-router.post("/login", LoginMiddleware , Login);
-router.post("/logout", Logout);	
-
-module.exports = router;
+module.exports = authRoute;

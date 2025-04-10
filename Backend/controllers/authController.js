@@ -7,7 +7,7 @@ dotenv.config();
 const Login = async (req, res, next) => {
   const { email } = req.body;
   try {
-    const matchingUser = await User.findOne({ email });
+    const matchingUser = await User.findOne({ email }).select("-password");
     const refreshToken = jwt.sign(
       { userId: matchingUser._id, user: matchingUser.name },
       process.env.SECRET_KEY,
@@ -21,7 +21,7 @@ const Login = async (req, res, next) => {
     });
     res
       .status(200)
-      .json({ message: "Login Successfull!", refreshToken, matchingUser });
+      .json({ message: "Login Successfull!", user: matchingUser });
   } catch (error) {
     next(new AppError(500, error.message));
   }
@@ -40,21 +40,4 @@ const Signup = async (req, res, next) => {
   }
 };
 
-const Logout = async (req, res, next) => {
-  try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) {
-      return next(new AppError(400, "No token provided"));
-    }
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // `false`
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "Lax", // `Strict` can block requests in some cases, `Lax` is better for authentication
-    });
-    res.status(200).json({ message: "logout Successful!" });
-  } catch (error) {
-    next(new AppError(500, error.message));
-  }
-};
-
-module.exports = { Login, Signup, Logout };
+module.exports = { Login, Signup };

@@ -1,19 +1,27 @@
-const express = "express";
+const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
-dotenv.config();
 const passport = require("passport");
 const session = require("express-session");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const indexRoute = require("./routes/indexRoute");
+const dbConnect = require("./config/dbConnect");
+const AppError = require("./utils/AppError");
+const User = require("./models/user.model");
+require("./config/passport"); 
+dotenv.config();
 
 const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));  
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+// Define the secret key for signing cookies
+const cookieParserSecret = process.env.SECRET_KEY;
+app.use(cookieParser(cookieParserSecret));
 
 // CORS configuration
 const whitelist = [process.env.FE_URL, process.env.DEPLOY_FE_URL];
@@ -78,12 +86,12 @@ app.get(
       maxAge: 7 * 24 * 60 * 60 * 1000, // Seven Days
     });
     req.session.user = req.user;
-    res.redirect(`${process.env.FE_URL}/googlecallback`); // Redirect to homepage
+    res.redirect(`${process.env.FE_URL}/googlecallback`);
   }
 );
 
 // Auth status check
-app.get("/api/auth/status", (req, res, next) => {
+app.get("/api/auth/status", async (req, res, next) => {
   const token = req.cookies?.refreshToken;
   if (!token) {
     return next(
@@ -93,8 +101,17 @@ app.get("/api/auth/status", (req, res, next) => {
     );
   }
   try {
-    jwt.verify(token, process.env.SECRET_KEY);
-    res.status(200).json({ isAuthenticated: true });
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const user = await User.findOne({ _id: decoded.userId }).select("-password");
+    if (!user) {
+      return next(
+        new AppError(401, "User not found", {
+          isAuthenticated: false,
+        })
+      );
+    }
+
+    res.status(200).json({ isAuthenticated: true, user });
   } catch (err) {
     res.clearCookie("refreshToken");
     next(
@@ -133,10 +150,12 @@ app.post("/logout", (req, res, next) => {
   }
 });
 
-// Error handling
-app.all("*", (req, res, next) => {
-  next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
-});
+
+// // Error handling
+// app.all("*", (req, res, next) => {
+//   console.log("this line is done")
+//   // next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
+// });
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -150,7 +169,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 8082;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   dbConnect();
   console.log(`App running at http://localhost:${PORT}`);
