@@ -1,6 +1,17 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
+import {
+  ErrorPage,
+  IndexPage,
+  LoginPage,
+  Portfolio,
+  RegisterPage,
+  SearchPage,
+  StockDetail,
+  TradePage,
+} from "./pages/indexPages.js";
+import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -9,7 +20,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <Index /> },
+      { path: "/", element: <IndexPage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
       { path: "/search", element: <SearchPage /> },

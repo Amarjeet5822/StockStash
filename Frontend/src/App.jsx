@@ -1,6 +1,6 @@
 
 import { Outlet, useLocation } from "react-router-dom";
-import { FooterPage, Navbar } from "./components/layout";
+import { FooterPage, Navbar } from "./components/layout/index";
 import { useEffect } from "react";
 
 
