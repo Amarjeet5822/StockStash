@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-@utility textOrange {
-  @apply  text-orange-500
+@utility textHoverGray {
+  @apply  hover:text-gray-500
 }
 @utility textBlue {
   @apply  text-blue-500
@@ -10,5 +10,8 @@
 @theme {
   --color-404found: #1F75FE;
   --color-primary: #0066cc;
+  --color-stockstash-green: #00cc66;
   --color-primary-dark:#003366;
+  --color-primary-light:#3399ff;
+
 }

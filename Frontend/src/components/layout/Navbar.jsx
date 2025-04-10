@@ -50,7 +50,7 @@ const Navbar = () => {
             <div className="bg-stockstash-green rounded-md p-1.5">
               <LineChart className="h-5 w-5 text-white" />
             </div>
-            <span className="hidden text-xl font-bold sm:inline-block">
+            <span className="text-xl font-bold sm:inline-block">
               StockStash
             </span>
           </Link>

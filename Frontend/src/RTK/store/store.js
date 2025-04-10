@@ -1,6 +1,11 @@
+import { configureStore } from "@reduxjs/toolkit"
+import authUserReducer from "../features/authSlice"
+import loggerMiddleware from "../middleware/loggerMiddleware"
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
-    auth: authUserReducer,
-  }
+    authUser: authUserReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(loggerMiddleware),
  })
