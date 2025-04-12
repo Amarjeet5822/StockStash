@@ -86,7 +86,7 @@ app.get(
       maxAge: 7 * 24 * 60 * 60 * 1000, // Seven Days
     });
     req.session.user = req.user;
-    res.redirect(`${process.env.FE_URL}/dashboard?token=${refreshToken}`); // Redirect to your frontend dashboard
+    res.redirect(`${process.env.DEPLOY_FE_URL}/dashboard?token=${refreshToken}`); // Redirect to your frontend dashboard
   }
 );
 
