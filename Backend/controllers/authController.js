@@ -2,6 +2,7 @@ const AppError = require("../utils/AppError");
 const dotenv = require("dotenv");
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 dotenv.config();
 
 const Login = async (req, res, next) => {

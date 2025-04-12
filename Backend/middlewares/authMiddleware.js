@@ -37,7 +37,6 @@ const SignupMiddleware = async (req, res, next) => {
 
 const LoginMiddleware = async (req, res, next) => {
   const {email, password} = req.body;
-  // logic to trim password and email 
   if(!email?.trim() || !password?.trim()) {
     return next(new AppError(400, "Invalid Credential"))
   }
