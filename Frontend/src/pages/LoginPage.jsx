@@ -18,11 +18,10 @@ function LoginPage() {
   const handleEmailLogin = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(loginUser(email, password)).unwrap();
+      await dispatch(loginUser(({email, password}))).unwrap();
       setEmail("");
       setPassword("");
       setIsField(true);
-      setIsAuthenticated(true);
       navigate("/");
     } catch (error) {
       console.log("error");

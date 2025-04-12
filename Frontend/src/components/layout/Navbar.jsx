@@ -116,10 +116,10 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="hidden md:block">
-              <Link to="/login" className="text-sm font-medium text-foreground bg-primary px-4 py-2 rounded-md hover:bg-primary/90">
+              <Link to="/login" className="text-sm font-medium text-foreground bg-stockstash-green px-4 py-2 rounded-md hover:bg-stockstash-green/90">
                 Log in
               </Link>
-              <Link to="/register" className="text-sm font-medium text-foreground bg-primary px-4 py-2 rounded-md hover:bg-primary/90 ml-2">
+              <Link to="/register" className="text-sm font-medium text-foreground bg-stockstash-green px-4 py-2 rounded-md hover:bg-stockstash-green/90 ml-2">
                 Sign up
               </Link>
             </div>
@@ -175,7 +175,7 @@ const Navbar = () => {
                   Log in
                 </Link>
                 <Link
-                  to="/signup"
+                  to="/register"
                   className="flex-1 text-center py-2 bg-primary text-white rounded-md"
                   onClick={() => setMobileMenuOpen(false)}
                 >

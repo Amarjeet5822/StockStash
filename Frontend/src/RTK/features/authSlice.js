@@ -8,6 +8,7 @@ console.log("api backend", api); // check the api link
 export const loginUser = createAsyncThunk(
   "authUser/loginUser",
   async ({ password, email }, { rejectWithValue }) => {
+    console.log("email-password", email, password); // check the email and password
     try {
       const response = await axios.post(
         `${api}/api/auth/login`,

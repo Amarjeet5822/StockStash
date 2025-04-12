@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
       { path: "/search", element: <SearchPage /> },
-      { path: "/stock/:symbol", element: <StockDetail /> },
+      { path: "/stock/:id", element: <StockDetail /> },
       { path: "/portfolio", element: <Portfolio /> },
       { path: "/trade", element: <TradePage /> },
       { path: "/dashboard", element: <DashboardPage /> },

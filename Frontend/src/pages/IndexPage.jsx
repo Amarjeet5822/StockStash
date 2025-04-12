@@ -2,19 +2,22 @@ import React, { useEffect } from "react";
 import { getUserStatus } from "../RTK/features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStocks } from "../RTK/features/stockSlice";
+import { useNavigate } from "react-router-dom";
 
 function IndexPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { stocks: mockStocks, status } = useSelector((state) => state.stocks);
+
   useEffect(() => {
     const fetchUserStatus = async () => {
       try {
         await dispatch(getUserStatus()).unwrap();
-        await dispatch(fetchStocks()).unwrap();
       } catch (error) {}
     };
     fetchUserStatus();
   }, []);
+
   useEffect(() => {
     const fetchstocks = async () => {
       try {
@@ -60,8 +63,9 @@ function IndexPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {mockStocks.slice(0, 3).map((stock) => (
               <div
-                key={stock.symbol}
-                className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+                onClick={() => navigate(`/stock/${stock._id}`)}
+                key={stock._id}
+                className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition cursor-pointer"
               >
                 <h3 className="text-xl font-bold mb-2">
                   {stock.name} ({stock.symbol})
@@ -91,8 +95,9 @@ function IndexPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mockStocks.slice(0, 6).map((stock) => (
               <div
-                key={stock.symbol}
-                className="bg-white p-6 rounded-xl shadow hover:shadow-md transition"
+                onClick={() => navigate(`/stock/${stock._id}`)}
+                key={stock._id}
+                className="bg-white p-6 rounded-xl shadow hover:shadow-md transition cursor-pointer"
               >
                 <h3 className="text-xl font-bold">{stock.name}</h3>
                 <p className="text-sm mb-2">{stock.description}</p>
@@ -124,7 +129,9 @@ function IndexPage() {
           <p className="mb-6 text-lg">
             Join Stock Stash and make your money work for you!
           </p>
-          <button className="bg-white text-blue-600 font-semibold py-2 px-6 rounded-lg shadow hover:bg-gray-100">
+          <button 
+          onClick={() => navigate("/search")}
+          className="bg-white text-blue-600 font-semibold py-2 px-6 rounded-lg shadow hover:bg-gray-100">
             Get Started
           </button>
         </div>
