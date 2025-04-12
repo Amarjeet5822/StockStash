@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {  NavLink, useNavigate } from "react-router-dom";
+import {  NavLink, useLocation, useNavigate } from "react-router-dom";
 import { registerUser } from "../RTK/features/authSlice";
 
 function SingupPage() {
@@ -9,7 +9,7 @@ function SingupPage() {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const location = useLocation();
   const formHandler = async (event) => {
     event.preventDefault();
     if (!name || !email || !password) {
@@ -25,6 +25,13 @@ function SingupPage() {
       console.log("error", error);
     }
   };
+  const scrollToPosition = () => {
+    window.scrollTo(0,100);
+    return null
+  }
+  useEffect(() => {
+    scrollToPosition();
+  }, [location]);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white pt-3 pb-8 px-8 rounded-lg shadow-md w-full max-w-md">

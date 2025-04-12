@@ -6,6 +6,7 @@ import StockDetail from "./StockDetail";
 import Portfolio from "./Portfolio";
 import TradePage from "./TradePage";
 import IndexPage from "./IndexPage";
+import DashboardPage from "./DashboardPage";
 
 export {
   ErrorPage,
@@ -16,4 +17,5 @@ export {
   Portfolio,
   TradePage,
   IndexPage,
+  DashboardPage,
 };

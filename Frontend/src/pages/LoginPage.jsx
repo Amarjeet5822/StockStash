@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../RTK/features/authSlice";
+import { api } from "../RTK/store/links";
 
 function LoginPage() {
   const [isField, setIsField] = useState(true);
@@ -11,7 +12,7 @@ function LoginPage() {
   const dispatch = useDispatch();
   const emailRef = useRef(null);
   const handleGoogleLogin = () => {
-    window.location.href = `${api_url}/auth/google`;
+    window.location.href = `${api}/auth/google`;
   };
 
   const handleEmailLogin = async (e) => {

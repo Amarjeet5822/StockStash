@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Home, 
@@ -13,12 +13,12 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../RTK/features/authSlice';
 
-
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const userMenuRef = useRef(null);
   const dispatch = useDispatch();
-  
-  // Access authentication state from Redux store
+
   const { isAuthenticated, userDetail, loading } = useSelector((state) => state.authUser);
 
   const navItems = [
@@ -30,23 +30,38 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    setShowUserDropdown(false);
   };
-  
-  if( loading) {
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setShowUserDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  if (loading) {
     return (
       <div className='min-h-96 flex justify-center items-center'>
-      <div className='text-3xl text-center text-primary font-semibold '>
-         Loading.....
+        <div className='text-3xl text-center text-primary font-semibold '>
+          Loading.....
+        </div>
       </div>
-    </div>
-    )
+    );
   }
+
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo and Brand */}
         <div className="flex items-center gap-2">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 textHoverGray">
             <div className="bg-stockstash-green rounded-md p-1.5">
               <LineChart className="h-5 w-5 text-white" />
             </div>
@@ -62,7 +77,7 @@ const Navbar = () => {
             <Link
               key={item.href}
               to={item.href}
-              className="flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:textHoverGray"
             >
               {item.icon}
               <span>{item.label}</span>
@@ -73,30 +88,38 @@ const Navbar = () => {
         {/* User Menu and Authentication */}
         <div className="flex items-center gap-2">
           {isAuthenticated ? (
-            <div className="flex items-center gap-4">
-              {/* Notification Bell */}
-              <button className="relative p-2">
+            <div className="relative" ref={userMenuRef}>
+              <button
+                className="relative p-2"
+                onClick={() => setShowUserDropdown((prev) => !prev)}
+              >
+                <User className="h-5 w-5" />
+              </button>
+
+              <button className="relative p-2 hidden md:inline-block">
                 <Bell className="h-5 w-5" />
                 <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
               </button>
-              {/* User Info and Logout */}
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{userDetail?.name}</span>
-                <span className="text-xs text-muted-foreground">{userDetail?.email}</span>
-                <button
-                  onClick={handleLogout}
-                  className="text-sm font-medium text-muted-foreground hover:text-foreground"
-                >
-                  Log out
-                </button>
-              </div>
+
+              {showUserDropdown && (
+                <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 px-4 py-3 text-sm">
+                  <div className="font-semibold">{userDetail?.name}</div>
+                  <div className="text-xs text-gray-500 mb-2">{userDetail?.email}</div>
+                  <button
+                    onClick={handleLogout}
+                    className="text-sm font-medium text-red-600 hover:underline"
+                  >
+                    Log out
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="hidden md:block">
-              <Link to="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground mr-4">
+              <Link to="/login" className="text-sm font-medium text-foreground bg-primary px-4 py-2 rounded-md hover:bg-primary/90">
                 Log in
               </Link>
-              <Link to="/signup" className="text-sm font-medium text-foreground bg-primary px-4 py-2 rounded-md hover:bg-primary/90">
+              <Link to="/register" className="text-sm font-medium text-foreground bg-primary px-4 py-2 rounded-md hover:bg-primary/90 ml-2">
                 Sign up
               </Link>
             </div>

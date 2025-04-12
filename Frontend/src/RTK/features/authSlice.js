@@ -85,10 +85,8 @@ const authUserSlice = createSlice({
   name: "authUser",
   initialState,
   reducers: {
-    resetState: (state) => {
-      state.loading = false;
-      state.error = null;
-      state.message = null;
+    setGoogleIsAuthenticated: (state) => {
+      state.isAuthenticated = true;
     },
   },
   extraReducers: (builder) => {
@@ -149,5 +147,5 @@ const authUserSlice = createSlice({
       .addCase(registerUser.rejected, handleRejected);
   },
 });
-export const { resetState } = authUserSlice.actions;
+export const { setGoogleIsAuthenticated } = authUserSlice.actions;
 export default authUserSlice.reducer;

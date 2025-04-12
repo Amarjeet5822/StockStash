@@ -4,6 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import App from "./App.jsx";
 import {
+  DashboardPage,
   ErrorPage,
   IndexPage,
   LoginPage,
@@ -30,6 +31,8 @@ const router = createBrowserRouter([
       { path: "/stock/:symbol", element: <StockDetail /> },
       { path: "/portfolio", element: <Portfolio /> },
       { path: "/trade", element: <TradePage /> },
+      { path: "/dashboard", element: <DashboardPage /> },
+      
     ],
   },
 ]);
