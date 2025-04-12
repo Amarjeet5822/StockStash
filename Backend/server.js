@@ -86,7 +86,7 @@ app.get(
       maxAge: 7 * 24 * 60 * 60 * 1000, // Seven Days
     });
     req.session.user = req.user;
-    res.redirect(`${process.env.FE_URL}/googlecallback`);
+    res.redirect(`${process.env.FE_URL}/dashboard?token=${refreshToken}`); // Redirect to your frontend dashboard
   }
 );
 
@@ -154,8 +154,9 @@ app.post("/logout", (req, res, next) => {
 // // Error handling
 // app.all("*", (req, res, next) => {
 //   console.log("this line is done")
-//   // next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
+//   next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
 // });
+
 
 // Global error handler
 app.use((err, req, res, next) => {
