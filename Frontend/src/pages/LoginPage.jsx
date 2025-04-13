@@ -12,6 +12,7 @@ function LoginPage() {
   const dispatch = useDispatch();
   const emailRef = useRef(null);
   const handleGoogleLogin = () => {
+    console.log("google login",`${api}/auth/google` );
     window.location.href = `${api}/auth/google`;
   };
 
