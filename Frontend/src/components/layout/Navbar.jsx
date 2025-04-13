@@ -46,8 +46,6 @@ const Navbar = () => {
     };
   }, []);
 
-  }
-
   return (
     <header className="border-b-2 border-gray-200 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
