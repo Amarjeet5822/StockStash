@@ -28,7 +28,7 @@ function IndexPage() {
   }, []);
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center">
         <div className="loader">Loading...</div>
       </div>
     );

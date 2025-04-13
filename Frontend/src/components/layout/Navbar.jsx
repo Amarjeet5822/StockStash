@@ -46,18 +46,10 @@ const Navbar = () => {
     };
   }, []);
 
-  if (loading) {
-    return (
-      <div className='min-h-96 flex justify-center items-center'>
-        <div className='text-3xl text-center text-primary font-semibold '>
-          Loading.....
-        </div>
-      </div>
-    );
   }
 
   return (
-    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="border-b-2 border-gray-200 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo and Brand */}
         <div className="flex items-center gap-2">
